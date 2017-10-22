@@ -98,6 +98,9 @@ with -Wall and -ansi options. Warnings are shown in the compile output."
     (sit-for 0.01)
     (comint-interrupt-subjob)
     (sit-for 0.01)
+    (insert "PS1=\">\"")
+    (comint-send-input)
+    (sit-for 0.01)
     (insert (format "cd %s" src-dir-name))
     (comint-send-input)
     (sit-for 0.01)
@@ -138,3 +141,14 @@ with -Wall and -ansi options. Warnings are shown in the compile output."
 (add-hook 'shell-mode
           (lambda () (local-set-key (kbd "C-c C-d") 'comint-interrupt-subjob)))
 
+(defun open-in-browser()
+  (interactive)
+  (shell-command (format "xdg-open \"%s\"" (buffer-file-name))))
+
+(global-set-key (kbd "C-c §") 'open-in-browser)
+
+(setq x-select-enable-clipboard t)
+(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+
+(add-to-list 'load-path "~/.emacs.d/elisp/")
+(load "~/.emacs.d/elisp/lorem-ipsum.el")
